@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+movie-backend/node_modules/
+movie-frontend/node_modules/
+
+# Env files
+.env
+movie-backend/.env
+movie-frontend/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build folders
+movie-backend/dist/
+movie-frontend/.next/
+movie-frontend/out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
