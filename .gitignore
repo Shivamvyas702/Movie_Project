@@ -7,7 +7,7 @@ movie-frontend/node_modules/
 .env
 movie-backend/.env
 movie-frontend/.env
-
+movie-frontend/.env.local
 # Logs
 npm-debug.log*
 yarn-debug.log*
