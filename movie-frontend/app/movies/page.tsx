@@ -120,7 +120,7 @@ export default function MoviesPage() {
 
 
       {/* ✅ HEADER */}
-      <div className="flex justify-between items-center mb-10">
+      <div className="relative z-[50] flex justify-between items-center mb-10">
         <div className="flex items-center gap-3 text-white">
           <h1 className="text-3xl font-semibold">My movies</h1>
 
@@ -161,19 +161,23 @@ export default function MoviesPage() {
 
       {/* ✅ EMPTY STATE — EXACT CENTER */}
       {!loading && movies.length === 0 && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+  <div className="absolute top-32 left-0 right-0 bottom-0 
+       flex flex-col items-center justify-center 
+       text-white z-10 pointer-events-none">
+
           <h2 className="text-5xl font-semibold mb-10">
             Your movie list is empty
           </h2>
 
           <button
-            onClick={() => router.push('/movies/new')}
-            className="bg-green-600 hover:bg-green-700 cursor-pointer
-                 text-white px-8 py-3 rounded-md 
-                 font-medium shadow"
-          >
-            Add a new movie
-          </button>
+  onClick={() => router.push('/movies/new')}
+  className="pointer-events-auto bg-green-600 hover:bg-green-700 cursor-pointer
+         text-white px-8 py-3 rounded-md 
+         font-medium shadow"
+>
+  Add a new movie
+</button>
+
         </div>
       )}
 
