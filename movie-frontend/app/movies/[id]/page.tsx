@@ -113,29 +113,35 @@ export default function EditMoviePage() {
 
 
   return (
-  <div className="min-h-screen bg-[#083344] relative overflow-hidden 
-                  flex flex-col  px-32">
-
-    {/* ✅ PAGE TITLE */}
-    <h1 className="text-white text-5xl font-semibold mt-20">
+    <div className="min-h-screen bg-[#083344] relative overflow-hidden 
+                    flex flex-col px-6 md:px-32">
+  
+      {/* ✅ PAGE TITLE */}
+      <h1 className="text-white text-3xl md:text-5xl font-semibold 
+                     mt-14 md:mt-20 text-center md:text-left">
         Edit
       </h1>
-
+  
       {/* ✅ MAIN FORM ROW */}
-         <div className="flex gap-28 items-start relative z-10 mt-20">
-
+      <div className="flex flex-col md:flex-row 
+                      gap-12 md:gap-28 
+                      items-center md:items-start 
+                      relative z-10 mt-14 md:mt-20">
+  
         {/* ✅ LEFT: IMAGE BOX */}
         <div
           onClick={triggerFileSelect}
-             className="w-[380px] h-[380px] border-2 border-dashed border-gray-400 
-                   rounded-xl flex flex-col items-center justify-center 
-                   text-gray-300 text-sm cursor-pointer 
-                   hover:border-white transition"
+          className="w-[260px] h-[260px] 
+                     md:w-[380px] md:h-[380px]
+                     border-2 border-dashed border-gray-400 
+                     rounded-xl flex flex-col items-center justify-center 
+                     text-gray-300 text-sm cursor-pointer 
+                     hover:border-white transition"
         >
           {!preview ? (
             <>
-              <span className="text-2xl mb-3 ">+</span>
-               <p className="text-base">Drop other image here</p>
+              <span className="text-2xl mb-3">+</span>
+              <p className="text-base">Drop other image here</p>
             </>
           ) : (
             <img
@@ -145,7 +151,7 @@ export default function EditMoviePage() {
             />
           )}
         </div>
-
+  
         <input
           type="file"
           accept="image/*"
@@ -153,59 +159,62 @@ export default function EditMoviePage() {
           onChange={handleFileChange}
           className="hidden"
         />
-
-        {/* ✅ RIGHT: FORM FIELDS */}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 w-[300px] mt-0">
-
+  
+        {/* ✅ RIGHT: FORM */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-full md:w-[300px]"
+        >
           <input
             {...register('title')}
             placeholder="Title"
             required
-            className="bg-[#0b3c49] text-white px-5 py-2 rounded-md text-lg
-                     outline-none border border-transparent 
-                     focus:border-[#2fa4b5]"
+            className="bg-[#0b3c49] text-white px-5 py-3 rounded-md text-lg
+                       outline-none border border-transparent 
+                       focus:border-[#2fa4b5]"
           />
-
+  
           <input
             type="number"
             {...register('publishingYear')}
             placeholder="Publishing year"
             required
-            className="bg-[#0b3c49] text-white px-5 py-2 rounded-md text-lg
-                     outline-none border border-transparent 
-                     focus:border-[#2fa4b5] w-[220px]"
+            className="bg-[#0b3c49] text-white px-5 py-3 rounded-md text-lg
+                       outline-none border border-transparent 
+                       focus:border-[#2fa4b5] w-full md:w-[220px]"
           />
-
+  
           {/* ✅ ACTION BUTTONS */}
-        <div className="flex gap-6 mt-6">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-6 w-full">
             <button
               type="button"
               onClick={() => router.push('/movies')}
-              className="px-12 py-2 rounded-md border border-gray-300 cursor-pointer font-bold
-                       text-gray-300 hover:bg-white hover:text-black transition"
+              className="w-full md:w-auto px-12 py-3 rounded-md border border-gray-300 
+                         cursor-pointer font-bold text-gray-300 
+                         hover:bg-white hover:text-black transition"
             >
               Cancel
             </button>
-
+  
             <button
               type="submit"
               disabled={loading}
-              className="px-12 py-2 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer font-bold
-                       text-white font-bold disabled:opacity-50"
+              className="w-full md:w-auto px-12 py-3 rounded-md bg-green-500 
+                         hover:bg-green-600 cursor-pointer font-bold
+                         text-white disabled:opacity-50"
             >
               {loading ? 'Updating...' : 'Update'}
             </button>
           </div>
-
         </form>
       </div>
-
-      {/* ✅ Bottom Dual Waves  */}
+  
+      {/* ✅ BOTTOM WAVES */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-
+  
         {/* Back Wave */}
         <svg
-          className="absolute bottom-0 w-[110%] h-[240px]"
+          className="absolute bottom-0 w-[110%] h-[200px] md:h-[240px]"
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
         >
@@ -215,10 +224,10 @@ export default function EditMoviePage() {
             d="M0,160L48,154.7C96,149,192,139,288,149.3C384,160,480,192,576,197.3C672,203,768,181,864,170.7C960,160,1056,160,1152,170.7C1248,181,1344,203,1392,213.3L1440,224L1440,320L0,320Z"
           />
         </svg>
-
+  
         {/* Front Wave */}
         <svg
-          className="relative w-[110%] h-[160px]"
+          className="relative w-[110%] h-[140px] md:h-[160px]"
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
         >
@@ -229,8 +238,8 @@ export default function EditMoviePage() {
           />
         </svg>
       </div>
-
     </div>
   );
+  
 
 }
