@@ -20,16 +20,31 @@ export default function MoviesPage() {
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
   const hydrated = useAuthStore((s) => s.hydrated);
   const accessToken = useAuthStore((s) => s.accessToken);
+  
+  // ✅ Debounce Search (500ms)
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearch(search);
+    setPage(1); // reset page on new search
+  }, 500);
+
+  return () => clearTimeout(timer);
+}, [search]);
 
 
   const fetchMovies = async () => {
     try {
       setLoading(true);
 
-      const res = await api.get(`/movies?page=${page}&limit=8`);
+      const res = await api.get(
+        `/movies?page=${page}&limit=8&search=${debouncedSearch}`
+      );
+      
 
       setMovies(res.data.data);
       setTotalPages(res.data.meta.totalPages);
@@ -44,7 +59,8 @@ export default function MoviesPage() {
     if (hydrated && accessToken) {
       fetchMovies();
     }
-  }, [page, hydrated, accessToken]);
+  }, [page, hydrated, accessToken, debouncedSearch]);
+
 
 
 
@@ -152,6 +168,23 @@ export default function MoviesPage() {
 
       </div>
 
+
+      {/* ✅ SEARCH BAR */}
+<div className="relative z-40 mb-10 max-w-md">
+  <input
+    type="text"
+    placeholder="Search movie..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="w-full px-5 py-3 rounded-md 
+             bg-[#0b3c49] text-white 
+             border border-[#1f5e6b]
+             focus:outline-none focus:border-green-500
+             placeholder-gray-400"
+  />
+</div>
+
+
       {/* ✅ LOADING */}
       {loading && (
         <div className="flex justify-center mt-24">
@@ -161,7 +194,7 @@ export default function MoviesPage() {
 
       {/* ✅ EMPTY STATE — EXACT CENTER */}
       {!loading && movies.length === 0 && (
-  <div className="absolute top-32 left-0 right-0 bottom-0 
+        <div className="absolute top-32 left-0 right-0 bottom-0 
        flex flex-col items-center justify-center 
        text-white z-10 pointer-events-none">
 
@@ -170,13 +203,13 @@ export default function MoviesPage() {
           </h2>
 
           <button
-  onClick={() => router.push('/movies/new')}
-  className="pointer-events-auto bg-green-600 hover:bg-green-700 cursor-pointer
+            onClick={() => router.push('/movies/new')}
+            className="pointer-events-auto bg-green-600 hover:bg-green-700 cursor-pointer
          text-white px-8 py-3 rounded-md 
          font-medium shadow"
->
-  Add a new movie
-</button>
+          >
+            Add a new movie
+          </button>
 
         </div>
       )}
@@ -263,9 +296,6 @@ export default function MoviesPage() {
               </div>
             </div>
           ))}
-
-
-
         </div>
       )}
 

@@ -50,24 +50,37 @@ export class MoviesService {
   }
   
   // ✅ FIND ALL (with pagination)
-  async findAll(page = 1, limit = 10) {
-    const skip = (page - 1) * limit;
+async findAll(page = 1, limit = 10, search?: string) {
+  const skip = (page - 1) * limit;
 
-    const [data, total] = await Promise.all([
-      this.movieModel.find().skip(skip).limit(limit).sort({ createdAt: -1 }),
-      this.movieModel.countDocuments(),
-    ]);
+  const filter: any = {};
 
-    return {
-      data,
-      meta: {
-        page,
-        limit,
-        totalItems: total,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
+  // ✅ SEARCH FILTER (TITLE)
+  if (search && search.trim() !== '') {
+    filter.title = { $regex: search, $options: 'i' };
   }
+
+  const [data, total] = await Promise.all([
+    this.movieModel
+      .find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 }),
+
+    this.movieModel.countDocuments(filter),
+  ]);
+
+  return {
+    data,
+    meta: {
+      page,
+      limit,
+      totalItems: total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+}
+
 
   // ✅ FIND ONE
   async findOne(id: string) {
